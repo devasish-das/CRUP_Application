@@ -1,111 +1,112 @@
 <?php include("header.php"); ?>
-<?php include("db.php"); ?>
+<?php include("dbcon.php"); ?>
+
 
 <div class="box1">
-
     <h2>ALL STUDENTS</h2>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        ADD STUDENTS
-    </button>
-</div>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">ADD STUDENTS</button>
 
+</div>
 <table class="table table-hover table-bordered table-striped">
     <thead>
         <tr>
-            <th>Id</th>
-            <th>First name</th>
-            <th>Last name</th>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
             <th>Age</th>
             <th>Update</th>
             <th>Delete</th>
         </tr>
     </thead>
     <tbody>
-        <?php
-        $query = "select * from `students`";
-        $result = mysqli_query($connection, $query);
+        <?PHP
 
+        $sql = "SELECT * FROM `students`";
+        $result = mysqli_query($conn, $sql);
         if (!$result) {
-            die("query failed: " . mysqli_error($connection));
+            echo "Connection failed-->" . mysqli_error($conn);
         } else {
             while ($row = mysqli_fetch_assoc($result)) {
         ?>
                 <tr>
-                    <td><?php echo $row['id'] ?></td>
-                    <td><?php echo $row['first_name'] ?></td>
-                    <td><?php echo $row['last_name'] ?></td>
-                    <td><?php echo $row['age'] ?></td>
-                    <td><a href="update_page.php?id=<?php echo $row['id'] ?>" class="btn btn-success">Update</a></td>
-                    <td><a href="delete_page.php?id=<?php echo $row['id'] ?>" class="btn btn-danger">Delete</a></td>
+                    <td><?php echo $row['id']; ?></td>
+                    <td><?php echo $row['firstName']; ?></td>
+                    <td><?php echo $row['lastName']; ?></td>
+                    <td><?php echo $row['age']; ?></td>
+                    <td><a href="update.php?id=<?php echo $row['id']; ?>" class="btn btn-success">Update</a></td>
+                    <td><a href="delete.php?id=<?php echo $row['id']; ?>" class="btn btn-danger" >Delete</a></td>
                 </tr>
-
-
         <?php
-
             }
         }
-
         ?>
 
     </tbody>
 </table>
-  <?php
-   if(isset($_GET['insert_msg'])){
-    echo "<h6>".$_GET['insert_msg']."</h6>";
-   }
-    
-  ?>
-
-  <?php
-   if(isset($_GET['message'])){
-    echo "<h6>".$_GET['message']."</h6>";
-   }
-    
-  ?>
-  <?php
-   if(isset($_GET['update_msg'])){
-    echo "<h6>".$_GET['update_msg']."</h6>";
-   }
-    
-  ?>
 
 <?php
-   if(isset($_GET['delete_msg'])){
-    echo "<h6>".$_GET['delete_msg']."</h6>";
+   
+   if(isset($_GET['msg'])){
+    echo "<h6 class='alert alert-danger'>".$_GET['msg']."</h6>";
    }
-    
-  ?>
+
+?>
+<?php
+   
+   if(isset($_GET['insert_msg'])){
+    echo "<h6 class='alert alert-success'>".$_GET['insert_msg']."</h6>";
+   }
+
+?>
+<?php
+   
+   if(isset($_GET['update_msg'])){
+    echo "<h6 class='alert alert-success'>".$_GET['update_msg']."</h6>";
+   }
+
+?>
+<?php
+   
+   if(isset($_GET['delete_msg'])){
+    echo "<h6 class='alert alert-danger'>".$_GET['delete_msg']."</h6>";
+   }
+
+?>
+
 
 
 <!-- Modal -->
-<form action="insert_data.php" method="post">
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<form action="insert.php" method="post">
+<div class="modal fade" id="exampleModal" tabindex="-1">
+    <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">ADD STUDENTS</h5>
-                <!-- ✅ Bootstrap 5 -->
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
+            <div class="modal-header">
+                <h5 class="modal-title">Add Student</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
+
             <div class="modal-body">
-                    <div class="form-group">
-                        <label for="f_name">First Name</label>
-                        <input type="text" name="f_name" class="form-control">
+                    <div>
+                        <label for="fname">First Name</label>
+                        <input type="text" name="fname" class="form-control">
                     </div>
-                    <div class="form-group">
-                        <label for="l_name">Last Name</label>
-                        <input type="text" name="l_name" class="form-control">
+                    <div>
+                        <label for="lname">last Name</label>
+                        <input type="text" name="lname" class="form-control">
                     </div>
-                    <div class="form-group">
+                    <div>
                         <label for="age">Age</label>
                         <input type="text" name="age" class="form-control">
                     </div>
+
                 </div>
+                
                 <div class="modal-footer">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    <input type="submit" class="btn btn-success" name="add_students" value="ADD">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-success" name="add_student" value="ADD">
                 </div>
+                
             </div>
         </div>
     </div>
